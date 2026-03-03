@@ -1,0 +1,80 @@
+@startuml
+title Kino Cinema System - Class Diagram
+
+class Cinema {
+    - name : String
+    - address : String
+}
+
+class Theatre {
+    - theatreNumber : int
+}
+
+class Row {
+    - rowNumber : int
+}
+
+class Seat {
+    - seatNumber : int
+    - isReserved : boolean
+}
+
+class Movie {
+    - title : String
+    - category : String
+    - ageLimit : int
+    - durationMinutes : int
+}
+
+class Show {
+    - showId : int
+    - dateTime : LocalDateTime
+    - status : ShowStatus
+}
+
+enum ShowStatus {
+    PLANNED
+    EXTRA
+    CANCELLED
+    COMPLETED
+}
+
+class Reservation {
+    - reservationNumber : int
+    - customerName : String
+    - phoneNumber : String
+    - reservationDate : LocalDateTime
+}
+
+class Ticket {
+    - ticketNumber : int
+    - price : double
+}
+
+class Employee {
+    - employeeId : int
+    - name : String
+}
+
+class SalesEmployee
+class MovieOperator
+class ServiceEmployee
+
+' Relationships
+Cinema "1" -- "*" Theatre
+Theatre "1" -- "*" Row
+Row "1" -- "*" Seat
+
+Cinema "1" -- "*" Employee
+Employee <|-- SalesEmployee
+Employee <|-- MovieOperator
+Employee <|-- ServiceEmployee
+
+Movie "1" -- "*" Show
+Theatre "1" -- "*" Show
+
+Show "1" -- "*" Reservation
+Reservation "1" -- "*" Ticket
+Ticket "*" -- "1" Seat
+
+@enduml

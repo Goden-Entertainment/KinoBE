@@ -1,0 +1,79 @@
+@startuml
+title Kino Cinema - ER Diagram
+
+entity Cinema {
+  + cinema_id : int <<PK>>
+  name : string
+  address : string
+}
+
+entity Theatre {
+  + theatre_id : int <<PK>>
+  theatre_number : int
+  cinema_id : int <<FK>>
+}
+
+entity Row {
+  + row_id : int <<PK>>
+  row_number : int
+  theatre_id : int <<FK>>
+}
+
+entity Seat {
+  + seat_id : int <<PK>>
+  seat_number : int
+  row_id : int <<FK>>
+}
+
+entity Movie {
+  + movie_id : int <<PK>>
+  title : string
+  category : string
+  age_limit : int
+  duration_minutes : int
+}
+
+entity Show {
+  + show_id : int <<PK>>
+  show_datetime : datetime
+  status : string
+  movie_id : int <<FK>>
+  theatre_id : int <<FK>>
+}
+
+entity Reservation {
+  + reservation_id : int <<PK>>
+  customer_name : string
+  phone_number : string
+  reservation_date : datetime
+  show_id : int <<FK>>
+}
+
+entity Ticket {
+  + ticket_id : int <<PK>>
+  price : decimal
+  reservation_id : int <<FK>>
+  seat_id : int <<FK>>
+}
+
+entity Employee {
+  + employee_id : int <<PK>>
+  name : string
+  role : string
+}
+
+' Relationships
+Cinema ||--o{ Theatre
+Theatre ||--o{ Row
+Row ||--o{ Seat
+
+Movie ||--o{ Show
+Theatre ||--o{ Show
+
+Show ||--o{ Reservation
+Reservation ||--o{ Ticket
+Seat ||--o{ Ticket
+
+Cinema ||--o{ Employee
+
+@enduml
