@@ -1,4 +1,4 @@
 package org.example.kinobe.service;
 
-public class OrderService {
+public interface OrderService {
 }

@@ -1,4 +1,4 @@
 package org.example.kinobe.repository;
 
-public class OrderRepository {
+public interface OrderRepository {
 }

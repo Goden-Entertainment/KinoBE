@@ -1,4 +1,4 @@
 package org.example.kinobe.service;
 
-public class MovieService {
+public interface MovieService {
 }

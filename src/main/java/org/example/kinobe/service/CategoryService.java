@@ -1,4 +1,4 @@
 package org.example.kinobe.service;
 
-public class CategoryService {
+public interface CategoryService {
 }

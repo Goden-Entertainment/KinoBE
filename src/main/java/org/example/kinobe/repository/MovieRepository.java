@@ -1,4 +1,4 @@
 package org.example.kinobe.repository;
 
-public class MovieRepository {
+public interface MovieRepository {
 }
