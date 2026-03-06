@@ -1,4 +1,16 @@
 package org.example.kinobe.service;
 
-public interface UserService {
+import org.example.kinobe.model.User;
+
+import java.util.List;
+
+public interface UserService  {
+    User createuser(User user);
+    List<User> getAllUser();
+    User updateUser(int userId, User user);
+    void deleteUser(int userId);
+
+
+
+
 }
