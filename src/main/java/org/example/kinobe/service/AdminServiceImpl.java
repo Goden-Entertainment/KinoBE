@@ -43,6 +43,7 @@ public class AdminServiceImpl implements AdminService {
         Admin adminExist = readAdminById(adminId);
 
         //Checking if the current username is the same as the old and if theres a user with that name in the db.
+        //Also never runs if the username isnt touched.
         if(!adminExist.getUsername().equals(updatedAdmin.getUsername())){
             if(adminRepository.existsByUsername(updatedAdmin.getUsername())){
                 throw new RuntimeException("Username already taken: " + updatedAdmin.getUsername());

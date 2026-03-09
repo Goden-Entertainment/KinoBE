@@ -34,6 +34,7 @@ public class AdminController {
         return ResponseEntity.ok(adminServiceImpl.readAllAdmin());
     }
 
+    //Basically edit form bare uden Thymeleaf, og som sender en RE istedet.
     @GetMapping("/{adminId}")
     public ResponseEntity<Admin> readAdminById(@PathVariable int adminId, HttpSession session) {
         if (session.getAttribute("adminId") == null) {
