@@ -4,6 +4,6 @@ public enum Status {
     ACTIVE,
     CANCELLED,
     ONGOING,
-    COMMINGSOON,
+    COMINGSOON,
     EXTRASHOWING
 }
