@@ -1,7 +1,9 @@
 package org.example.kinobe.controller;
 
 import org.example.kinobe.model.Movie;
+import org.example.kinobe.model.Theater;
 import org.example.kinobe.service.MovieService;
+import org.example.kinobe.service.TheaterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
