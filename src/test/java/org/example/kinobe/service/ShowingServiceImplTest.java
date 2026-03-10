@@ -39,7 +39,7 @@ class ShowingServiceImplTest {
         Showing showing = new Showing(1, LocalDate.now().minusDays(1), LocalTime.now(), "ACTIVE");
 
         RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
-        assertEquals("Invalid date, Showing cannot be scheduled earlier than the current day.", e.getMessage());
+        assertEquals(service.dateBeforeTodayMsg, e.getMessage());
     }
 
     @Test
@@ -47,7 +47,7 @@ class ShowingServiceImplTest {
         Showing showing = new Showing(1, LocalDate.now().plusMonths(4), LocalTime.now(), "ACTIVE");
 
         RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
-        assertEquals("Invalid date, Showing must be scheduled within 3 months of the current month.", e.getMessage());
+        assertEquals(service.dateNotWithInThreeMonthsMsg, e.getMessage());
     }
 
     @Test

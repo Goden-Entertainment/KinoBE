@@ -3,6 +3,8 @@ package org.example.kinobe.controller;
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.service.ShowingService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -20,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -34,6 +37,19 @@ class ShowingControllerTest {
 
     @MockitoBean
     private ShowingService service;
+
+    static Stream<LocalDate> invalidDates(){
+        return Stream.of(
+                LocalDate.now().minusDays(1),
+                LocalDate.now().plusMonths(3).plusDays(1)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidDates")
+    void ShowingController_createShowingWithInvalidDate_ReturnsBAD_REQUEST(){
+
+    }
 
     @Test
     void ShowingController_createShowing() throws Exception {

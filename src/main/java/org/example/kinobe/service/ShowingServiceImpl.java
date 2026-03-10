@@ -7,12 +7,19 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.temporal.TemporalField;
 import java.util.List;
 
 @Service
 public class ShowingServiceImpl implements ShowingService{
     ShowingRepository repository;
+    LocalDate today = LocalDate.now();
+    LocalDate maxDate = today.plusMonths(3);
+    int dateGapMonth = Period.between(today, maxDate).getMonths();
+
+    public final String dateBeforeTodayMsg = "Invalid date, Showing cannot be scheduled earlier than the current day.";
+    public final String dateNotWithInThreeMonthsMsg = "Invalid date, Showing must be scheduled within " + dateGapMonth + " months of the current month.";
 
     public ShowingServiceImpl(ShowingRepository repository){
         this.repository = repository;
@@ -20,20 +27,21 @@ public class ShowingServiceImpl implements ShowingService{
 
     @Override
     public Showing createShowing(Showing showing) {
-        LocalDate today = LocalDate.now();
-        LocalDate maxDate = today.plusMonths(3);
-
         if(showing.getDate().isBefore(today)){
-            throw new InvalidShowingDataException("Invalid date, Showing cannot be scheduled earlier than the current day.");
+            throw new InvalidShowingDataException(dateBeforeTodayMsg);
         }else if(showing.getDate().isAfter(maxDate)){
-            throw new InvalidShowingDataException("Invalid date, Showing must be scheduled within 3 months of the current month.");
+            throw new InvalidShowingDataException(dateNotWithInThreeMonthsMsg);
         }
-
         return repository.save(showing);
     }
 
     @Override
     public Showing updateShowing(Showing showing) {
+        if(showing.getDate().isBefore(today)){
+            throw new InvalidShowingDataException(dateBeforeTodayMsg);
+        }else if(showing.getDate().isAfter(maxDate)){
+            throw new InvalidShowingDataException(dateNotWithInThreeMonthsMsg);
+        }
         return repository.save(showing);
     }
 
