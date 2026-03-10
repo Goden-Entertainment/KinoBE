@@ -4,6 +4,9 @@ import org.example.kinobe.model.Showing;
 import org.example.kinobe.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalField;
 import java.util.List;
 
 @Service
@@ -16,6 +19,14 @@ public class ShowingServiceImpl implements ShowingService{
 
     @Override
     public Showing createShowing(Showing showing) {
+        LocalDate today = LocalDate.now();
+        LocalDate maxDate = today.plusMonths(3);
+
+        if(showing.getDate().isBefore(today)){
+            throw new RuntimeException("Date is not accepted");
+        }
+
+
         return repository.save(showing);
     }
 

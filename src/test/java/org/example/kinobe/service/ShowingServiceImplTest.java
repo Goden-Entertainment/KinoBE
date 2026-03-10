@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,6 +24,21 @@ class ShowingServiceImplTest {
 
     @InjectMocks
     ShowingServiceImpl service;
+
+    @Test
+    void showingServiceImpl_CreateShowingWithDateTodayAndAfter_DoesNotThrowException(){
+        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), "ACTIVE");
+
+        assertDoesNotThrow(() -> service.createShowing(showing));
+    }
+
+    @Test
+    void showingServiceImpl_CreateShowingWithDateBeforeToday_ThrowsRuntimeException(){
+        Showing showing = new Showing(1, LocalDate.now().minusDays(1), LocalTime.now(), "ACTIVE");
+
+        RuntimeException e = assertThrows(RuntimeException.class, () -> service.createShowing(showing));
+        assertEquals("Date is not accepted", e.getMessage());
+    }
 
     @Test
     void showingServiceImpl_DeleteShowingById_ReturnsShowing() {
