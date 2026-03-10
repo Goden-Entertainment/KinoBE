@@ -58,15 +58,15 @@ public class TheaterControllerTest {
         verify(theaterService, times(1)).createTheater(any(Theater.class));
     }
 
-//    @Test
-//    void updateTheaterNotFound() throws Exception {
-//        when(theaterService.updateTheater(any(Theater.class))).thenThrow(new RuntimeException("Theater  not found with id: 1"));
-//        mockMvc.perform(put("/theater/{theaterId}", 1)
-//                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(theater1)))
-//                .andExpect(status().isNotFound());
-//
-//        verify(theaterService, times(1)).updateTheater(any(Theater.class));
-//    }
+    @Test
+    void updateTheaterNotFound() throws Exception {
+        when(theaterService.updateTheater(any(Theater.class))).thenThrow(new RuntimeException("Theater  not found with id: 1"));
+        mockMvc.perform(put("/theater/{theaterId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(theater1)))
+                .andExpect(status().isNotFound());
+
+        verify(theaterService, times(1)).updateTheater(any(Theater.class));
+    }
 
     @Test
     void deleteTheater() throws Exception {
