@@ -8,6 +8,8 @@ import org.example.kinobe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,38 +26,40 @@ public class UserRestController {
 
 
 
-    @GetMapping("/login")
-    public String login(HttpSession session) {
-        if (session.getAttribute("user") != null) {
-            return "redirect:/user/profile";
-        }
-
-        return "login";
-    }
+//    @GetMapping("/login")
+//    public String login(HttpSession session) {
+//        if (session.getAttribute("user") != null) {
+//            return "redirect:/user/profile";
+//        }
+//
+//        return "login";
+//    }
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestParam("username") String username,
-                                   @RequestParam("password") String password,
-                                   HttpSession session) {
+    public ResponseEntity<?> authenticateUser(@RequestParam("username") String username,
+                                              @RequestParam("password") String password,
+                                              HttpSession session) {
         try {
             User user = userService.login(username, password);
 
             if (user != null) {
                 session.setAttribute("user", user);
-                return "redirect:/user/profile";
+                return ResponseEntity.ok(user);
             }
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid username or password");
 
         } catch (DataAccessException e) {
             throw new DatabaseOperationException("Database error at authentication", e);
         }
-
-        return "redirect:/user/login";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/user/login";
+        return ResponseEntity.ok("Logged out successfully");
     }
 
 }
