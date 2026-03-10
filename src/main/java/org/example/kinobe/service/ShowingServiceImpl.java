@@ -1,5 +1,6 @@
 package org.example.kinobe.service;
 
+import org.example.kinobe.exception.InvalidShowingDataException;
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,10 @@ public class ShowingServiceImpl implements ShowingService{
         LocalDate maxDate = today.plusMonths(3);
 
         if(showing.getDate().isBefore(today)){
-            throw new RuntimeException("Date is not accepted");
+            throw new InvalidShowingDataException("Invalid date, Showing cannot be scheduled earlier than the current day.");
+        }else if(showing.getDate().isAfter(maxDate)){
+            throw new InvalidShowingDataException("Invalid date, Showing must be scheduled within 3 months of the current month.");
         }
-
 
         return repository.save(showing);
     }

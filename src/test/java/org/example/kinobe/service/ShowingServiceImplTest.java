@@ -2,6 +2,7 @@ package org.example.kinobe.service;
 
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.repository.ShowingRepository;
+import org.example.kinobe.exception.InvalidShowingDataException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,18 +27,27 @@ class ShowingServiceImplTest {
     ShowingServiceImpl service;
 
     @Test
-    void showingServiceImpl_CreateShowingWithDateTodayAndAfter_DoesNotThrowException(){
+    void showingServiceImpl_CreateShowingWithAcceptableDate_DoesNotThrowInvalidShowingDataException(){
         Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), "ACTIVE");
 
         assertDoesNotThrow(() -> service.createShowing(showing));
+        verify(repository).save(showing);
     }
 
     @Test
-    void showingServiceImpl_CreateShowingWithDateBeforeToday_ThrowsRuntimeException(){
+    void showingServiceImpl_CreateShowingWithDateBeforeToday_ThrowsInvalidShowingDataException(){
         Showing showing = new Showing(1, LocalDate.now().minusDays(1), LocalTime.now(), "ACTIVE");
 
-        RuntimeException e = assertThrows(RuntimeException.class, () -> service.createShowing(showing));
-        assertEquals("Date is not accepted", e.getMessage());
+        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
+        assertEquals("Invalid date, Showing cannot be scheduled earlier than the current day.", e.getMessage());
+    }
+
+    @Test
+    void showingServiceImpl_CreateShowingWithDateFourMonthsFromToday_ThrowsRuntimeException(){
+        Showing showing = new Showing(1, LocalDate.now().plusMonths(4), LocalTime.now(), "ACTIVE");
+
+        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
+        assertEquals("Invalid date, Showing must be scheduled within 3 months of the current month.", e.getMessage());
     }
 
     @Test
