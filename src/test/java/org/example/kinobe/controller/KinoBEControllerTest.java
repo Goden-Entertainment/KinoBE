@@ -27,20 +27,20 @@ public class KinoBEControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Disabled("Temporarily disabled - needs fixing after restructure")
-    @Test
-void shouldEditUser() throws Exception{
-User testuser = new User(1, "marco", "123hemlighed", "20807993",
-        "marco@email.com", LocalDate.of(1999,1,1));
 
-when(userService.updateUser(new User())).thenReturn(testuser);
-
-    mockMvc.perform(get("", 1))
-            .andExpect(status().isOk())
-          //Jeg skal have den side html side jeg bruger
-            // .andExpect(view().name("editUserForm"))
-            .andExpect(model().attribute("user", testuser));
-}
+//    @Test
+//void shouldEditUser() throws Exception{
+//User testuser = new User(1, "marco", "123hemlighed", "20807993",
+//        "marco@email.com", LocalDate.of(1999,1,1));
+//
+//when(userService.updateUser(new User())).thenReturn(testuser);
+//
+//    mockMvc.perform(get("", 1))
+//            .andExpect(status().isOk())
+//          //Jeg skal have den side html side jeg bruger
+//            // .andExpect(view().name("editUserForm"))
+//            .andExpect(model().attribute("user", testuser));
+//}
 
 
 }
