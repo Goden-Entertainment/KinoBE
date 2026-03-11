@@ -29,17 +29,13 @@ public class SeatController {
 
     @GetMapping("/seats")
     public ResponseEntity<List<Seat>> readAllSeats(HttpSession session) {
-        if (session.getAttribute("adminId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+
         return ResponseEntity.ok(seatServiceImpl.readAllSeat());
     }
 
     @GetMapping("/{seatId}")
     public ResponseEntity<Seat> readSeatById(@PathVariable int seatId, HttpSession session) {
-        if (session.getAttribute("adminId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+
         Seat seat = seatServiceImpl.readSeatById(seatId);
         if (seat == null) {
             return ResponseEntity.notFound().build();

@@ -6,16 +6,17 @@ import jakarta.persistence.*;
 public class Seat {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seatId;
     private int rowNumber;
     private int seatNumber;
-    private int price;
+    private float price;
 
     @ManyToOne
     @JoinColumn(name = "theaterFK")
     Theater theater;
 
-    public Seat(int seatId, int rowNumber, int seatNumber, int price, Theater theater) {
+    public Seat(int seatId, int rowNumber, int seatNumber, float price, Theater theater) {
         this.seatId = seatId;
         this.rowNumber = rowNumber;
         this.seatNumber = seatNumber;
@@ -51,11 +52,11 @@ public class Seat {
         this.seatNumber = seatNumber;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
