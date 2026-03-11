@@ -60,12 +60,12 @@ public class ShowingServiceImpl implements ShowingService{
 
     @Override
     public List<Showing> showingListByMovieId(int movieId){
-        return repository.findAllByMovieId(movieId);
+        return repository.findAllByMovie_MovieId(movieId);
     }
 
     @Override
     public List<Showing> showingListByTheaterId(int theaterId){
-        return repository.findAllByTheaterId(theaterId);
+        return repository.findAllByTheater_TheaterId(theaterId);
     }
 
     @Override

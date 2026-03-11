@@ -34,7 +34,7 @@ public class SeatServiceImpl implements SeatService{
         Seat existingSeat = seatRepository.findById(seatId)
                 .orElseThrow(() -> new RuntimeException("Seat not found with id: " + seatId));
 
-        existingSeat.setRowNumber(updateSeat.getRowNumber());
+        existingSeat.setSeatRow(updateSeat.getSeatRow());
         existingSeat.setSeatNumber(updateSeat.getSeatNumber());
         existingSeat.setPrice(updateSeat.getPrice());
         existingSeat.setTheater(updateSeat.getTheater());

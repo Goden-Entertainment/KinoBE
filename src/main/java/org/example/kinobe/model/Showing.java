@@ -24,15 +24,13 @@ public class Showing {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-//    @ManyToOne
-//    @JoinColumn(name = "movieFK", referencedColumnName = "movieId")
-//    @Column(name = "movieFK")
-//    private Movie movie;
+    @ManyToOne
+    @JoinColumn(name = "movieFK")
+    private Movie movie;
 
-//    @ManyToOne
-//    @JoinColumn(name = "theaterFK", referencedColumnName = "theatherId")
-//    @Column(name = "teatherFK")
-//    private Theater theater;
+    @ManyToOne
+    @JoinColumn(name = "theaterFK")
+    private Theater theater;
 
 
 }
