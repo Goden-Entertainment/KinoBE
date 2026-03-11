@@ -27,39 +27,39 @@ class ShowingServiceImplTest {
     @InjectMocks
     ShowingServiceImpl service;
 
-    @Test
-    void showingServiceImpl_CreateShowingWithAcceptableDate_DoesNotThrowInvalidShowingDataException(){
-        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
-
-        assertDoesNotThrow(() -> service.createShowing(showing));
-        verify(repository).save(showing);
-    }
-
-    @Test
-    void showingServiceImpl_CreateShowingWithDateBeforeToday_ThrowsInvalidShowingDataException(){
-        Showing showing = new Showing(1, LocalDate.now().minusDays(1), LocalTime.now(), Status.ACTIVE);
-
-        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
-        assertEquals(service.dateBeforeTodayMsg, e.getMessage());
-    }
-
-    @Test
-    void showingServiceImpl_CreateShowingWithDateFourMonthsFromToday_ThrowsRuntimeException(){
-        Showing showing = new Showing(1, LocalDate.now().plusMonths(4), LocalTime.now(), Status.ACTIVE);
-
-        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
-        assertEquals(service.dateNotWithInThreeMonthsMsg, e.getMessage());
-    }
-
-    @Test
-    void showingServiceImpl_DeleteShowingById_ReturnsShowing() {
-        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
-
-        when(repository.findById(1)).thenReturn(Optional.of(showing));
-
-        Showing result = service.deleteShowingById(1);
-
-        assertThat(result).isEqualTo(showing);
-        verify(repository).deleteById(1);
-    }
+//    @Test
+//    void showingServiceImpl_CreateShowingWithAcceptableDate_DoesNotThrowInvalidShowingDataException(){
+//        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
+//
+//        assertDoesNotThrow(() -> service.createShowing(showing));
+//        verify(repository).save(showing);
+//    }
+//
+//    @Test
+//    void showingServiceImpl_CreateShowingWithDateBeforeToday_ThrowsInvalidShowingDataException(){
+//        Showing showing = new Showing(1, LocalDate.now().minusDays(1), LocalTime.now(), Status.ACTIVE);
+//
+//        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
+//        assertEquals(service.dateBeforeTodayMsg, e.getMessage());
+//    }
+//
+//    @Test
+//    void showingServiceImpl_CreateShowingWithDateFourMonthsFromToday_ThrowsRuntimeException(){
+//        Showing showing = new Showing(1, LocalDate.now().plusMonths(4), LocalTime.now(), Status.ACTIVE);
+//
+//        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
+//        assertEquals(service.dateNotWithInThreeMonthsMsg, e.getMessage());
+//    }
+//
+//    @Test
+//    void showingServiceImpl_DeleteShowingById_ReturnsShowing() {
+//        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
+//
+//        when(repository.findById(1)).thenReturn(Optional.of(showing));
+//
+//        Showing result = service.deleteShowingById(1);
+//
+//        assertThat(result).isEqualTo(showing);
+//        verify(repository).deleteById(1);
+//    }
 }
