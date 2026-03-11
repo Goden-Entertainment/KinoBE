@@ -18,29 +18,19 @@ public class OrderController {
     @Autowired
     private OrderServiceImpl orderServiceImpl;
 
-    // CRUD METHODS
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order, HttpSession session) {
-        if (session.getAttribute("adminId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order savedOrder = orderServiceImpl.createOrder(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<Order>> readAllOrders(HttpSession session) {
-        if (session.getAttribute("adminId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<List<Order>> readAllOrders() {
         return ResponseEntity.ok(orderServiceImpl.readAllOrder());
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> readOrderById(@PathVariable int orderId, HttpSession session) {
-        if (session.getAttribute("adminId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<Order> readOrderById(@PathVariable int orderId) {
         Order order = orderServiceImpl.readOrderById(orderId);
         if (order == null) {
             return ResponseEntity.notFound().build();
@@ -49,22 +39,13 @@ public class OrderController {
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<Order> updateOrder(@PathVariable int orderId, @RequestBody Order updatedOrder, HttpSession session) {
-        if (session.getAttribute("adminId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<Order> updateOrder(@PathVariable int orderId, @RequestBody Order updatedOrder) {
         Order order = orderServiceImpl.updateOrder(orderId, updatedOrder);
         return ResponseEntity.ok(order);
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable int orderId, HttpSession session) {
-        if (session.getAttribute("adminId") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        if (orderServiceImpl.readOrderById(orderId) == null) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteOrder(@PathVariable int orderId) {
         orderServiceImpl.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
     }
