@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(int userId, User user) {
         User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User ikke fundet"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         existingUser.setUsername(user.getUsername());
         existingUser.setPassword(user.getPassword());
