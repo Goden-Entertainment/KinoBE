@@ -1,5 +1,6 @@
 package org.example.kinobe.repository;
 
+import org.example.kinobe.misc.Status;
 import org.example.kinobe.model.Showing;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ class ShowingRepositoryTest {
 
     @Test
     public void showingRepository_SaveShowingToDB_GetShowingId(){
-        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.now()).status("ACTIVE").build();
+        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).build();
         showingRepository.save(showing);
 
         assertThat(showing.getShowingId()).isNotNull();
@@ -30,10 +31,10 @@ class ShowingRepositoryTest {
 
     @Test
     public void showingRepository_UpdateNewShowingInDB_ConfirmChanges(){
-        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.now()).status("ACTIVE").build();
+        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).build();
         showingRepository.save(showing);
 
-        showing.setStatus("FINISHED");
+        showing.setStatus(Status.CANCELLED);
         showingRepository.save(showing);
         Showing saved = showingRepository.getReferenceById(showing.getShowingId());
 

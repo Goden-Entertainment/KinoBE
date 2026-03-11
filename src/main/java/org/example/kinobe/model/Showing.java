@@ -2,6 +2,7 @@ package org.example.kinobe.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.kinobe.misc.Status;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +21,8 @@ public class Showing {
     private Integer showingId;
     private LocalDate date;
     private LocalTime time;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 //    @ManyToOne
 //    @JoinColumn(name = "movieFK", referencedColumnName = "movieId")

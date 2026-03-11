@@ -1,5 +1,6 @@
 package org.example.kinobe.controller;
 
+import org.example.kinobe.misc.Status;
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.service.ShowingService;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class ShowingControllerTest {
 
     @Test
     void ShowingController_createShowing() throws Exception {
-        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), "ACTIVE");
+        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
         when(service.createShowing(any(Showing.class))).thenReturn(showing);
 
         mockMvc.perform(post("/showing")
@@ -93,19 +94,19 @@ class ShowingControllerTest {
 
     @Test
     void ShowingController_getShowingById_ReturnShowingIdAndStatus() throws Exception {
-        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), "ACTIVE");
+        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
 
         when(service.getShowingById(1)).thenReturn(showing);
 
         mockMvc.perform(get("/showing/{showingId}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.showingId").value(1))
-                .andExpect(jsonPath("$.status").value("ACTIVE"));
+                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
     }
 
     @Test
     void ShowingController_updateShowing_ReturnShowingIdAndStatus() throws Exception {
-        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), "ACTIVE");
+        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
 
         when(service.updateShowing(any(Showing.class))).thenReturn(showing);
 
@@ -114,18 +115,18 @@ class ShowingControllerTest {
                         .content(objectMapper.writeValueAsString(showing)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.showingId").value(1))
-                .andExpect(jsonPath("$.status").value("ACTIVE"));
+                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
 
     }
 
     @Test
     void ShowingController_deleteShowingById_ReturnDeletedShowing() throws Exception {
-        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), "ACTIVE");
+        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
         when(service.deleteShowingById(1)).thenReturn(showing);
 
         mockMvc.perform(delete("/showing/{showingId}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.showingId").value(1))
-                .andExpect(jsonPath("$.status").value("ACTIVE"));
+                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
     }
 }
