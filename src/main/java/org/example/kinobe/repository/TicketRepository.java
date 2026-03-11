@@ -1,4 +1,7 @@
 package org.example.kinobe.repository;
 
-public interface TicketRepository {
+import org.example.kinobe.model.Ticket;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 }
