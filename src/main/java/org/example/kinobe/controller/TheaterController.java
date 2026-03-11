@@ -1,7 +1,6 @@
 package org.example.kinobe.controller;
 
 import org.example.kinobe.exception.ResourceNotFoundException;
-import org.example.kinobe.model.Movie;
 import org.example.kinobe.model.Theater;
 import org.example.kinobe.service.TheaterService;
 import org.springframework.http.HttpStatus;
@@ -29,9 +28,9 @@ public class TheaterController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> readAllTheater(){
-        List<Movie> movies = theaterService.readAllTheater();
-        return ResponseEntity.ok(movies);
+    public ResponseEntity<List<Theater>> readAllTheater(){
+        List<Theater> theaters = theaterService.readAllTheater();
+        return ResponseEntity.ok(theaters);
     }
 
     @GetMapping("/{theaterId}")
