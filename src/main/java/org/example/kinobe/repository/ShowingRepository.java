@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ShowingRepository extends JpaRepository<Showing, Integer> {
 
-    List<Showing> findAllByMovieId(int movieId);
-    List<Showing> findAllByTheaterId(int theaterId);
+    List<Showing> findAllByMovie_MovieId(int movieId);
+    List<Showing> findAllByTheater_TheaterId(int theaterId);
 
 }

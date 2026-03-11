@@ -8,7 +8,7 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seatId;
-    private int rowNumber;
+    private int seatRow;
     private int seatNumber;
     private float price;
 
@@ -16,9 +16,9 @@ public class Seat {
     @JoinColumn(name = "theaterFK")
     Theater theater;
 
-    public Seat(int seatId, int rowNumber, int seatNumber, float price, Theater theater) {
+    public Seat(int seatId, int seatRow, int seatNumber, float price, Theater theater) {
         this.seatId = seatId;
-        this.rowNumber = rowNumber;
+        this.seatRow = seatRow;
         this.seatNumber = seatNumber;
         this.price = price;
         this.theater = theater;
@@ -36,12 +36,12 @@ public class Seat {
         this.seatId = seatId;
     }
 
-    public int getRowNumber() {
-        return rowNumber;
+    public int getSeatRow() {
+        return seatRow;
     }
 
-    public void setRowNumber(int rowNumber) {
-        this.rowNumber = rowNumber;
+    public void setSeatRow(int seatRow) {
+        this.seatRow = seatRow;
     }
 
     public int getSeatNumber() {
