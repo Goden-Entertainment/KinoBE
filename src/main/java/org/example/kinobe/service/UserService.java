@@ -10,4 +10,6 @@ public interface UserService  {
     void deleteUser(User user);
     List<User> readAllUsers();
     User readUsersById(int userId);
+    User login(String username, String password);
+
 }

@@ -1,5 +1,6 @@
 package org.example.kinobe.service;
 
+import org.example.kinobe.exception.ProfileNotFoundException;
 import org.example.kinobe.model.User;
 import org.example.kinobe.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public User readUsersById(int userId) {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+    }
+
+    @Override
+    public User login(String username, String password) {
+        User user = userRepository.findUser(username);
+
+        if (user.getPassword().equals(password)) {
+            return user;
+        } else if (!user.getPassword().equals(password)){
+            throw new ProfileNotFoundException();
+        } else{
+            return null;
+        }
     }
 
 
