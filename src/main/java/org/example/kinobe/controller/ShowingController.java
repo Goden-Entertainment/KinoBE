@@ -1,5 +1,6 @@
 package org.example.kinobe.controller;
 
+import org.example.kinobe.exception.InvalidShowingDataException;
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.service.ShowingService;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,13 @@ public class ShowingController {
     }
 
     @PostMapping
-    public ResponseEntity<Showing> createShowing(@RequestBody Showing showing){
-        Showing saved = service.createShowing(showing);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    public ResponseEntity<?> createShowing(@RequestBody Showing showing){
+        try{
+            Showing saved = service.createShowing(showing);
+            return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        }catch(InvalidShowingDataException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
@@ -48,10 +53,14 @@ public class ShowingController {
     }
 
     @PutMapping("/{showingId}")
-    public ResponseEntity<Showing> updateShowingById(@PathVariable int showingId, @RequestBody Showing showing){
-        showing.setShowingId(showingId);
-        Showing saved = service.updateShowing(showing);
-        return new ResponseEntity<>(saved, HttpStatus.OK);
+    public ResponseEntity<?> updateShowingById(@PathVariable int showingId, @RequestBody Showing showing){
+        try{
+            showing.setShowingId(showingId);
+            Showing saved = service.updateShowing(showing);
+            return new ResponseEntity<>(saved, HttpStatus.OK);
+        }catch(InvalidShowingDataException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("{showingId}")
