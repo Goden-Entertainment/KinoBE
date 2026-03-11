@@ -27,6 +27,10 @@ public class ShowingServiceImpl implements ShowingService{
 
     @Override
     public Showing createShowing(Showing showing) {
+        if(showing == null){
+            throw new InvalidShowingDataException("Showing is NUll");
+        }
+
         if(showing.getDate().isBefore(today)){
             throw new InvalidShowingDataException(dateBeforeTodayMsg);
         }else if(showing.getDate().isAfter(maxDate)){
@@ -37,6 +41,10 @@ public class ShowingServiceImpl implements ShowingService{
 
     @Override
     public Showing updateShowing(Showing showing) {
+        if(showing == null){
+            throw new InvalidShowingDataException("Showing is NUll");
+        }
+
         if(showing.getDate().isBefore(today)){
             throw new InvalidShowingDataException(dateBeforeTodayMsg);
         }else if(showing.getDate().isAfter(maxDate)){
