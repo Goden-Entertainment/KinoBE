@@ -14,7 +14,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-
     @Override
     public User createuser(User user) {
         userRepository.save(user);
@@ -22,30 +21,26 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User updateUser(User user) {
+        userRepository.findById(user.getUserId()).orElseThrow(() -> new RuntimeException("User not found with id: " + user.getUserId()));
+        return userRepository.save(user);
+    }
 
     @Override
-    public List<User> getAllUser() {
+    public void deleteUser(User user) {
+        userRepository.findById(user.getUserId()).orElseThrow(() -> new RuntimeException("User not found with id: " + user.getUserId()));
+        userRepository.delete(user);
+    }
+
+    @Override
+    public List<User> readAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public User updateUser(int userId, User user) {
-        User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User ikke fundet"));
-
-        existingUser.setUsername(user.getUsername());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setDate(user.getDate());
-        existingUser.setPhonenumber(user.getPhonenumber());
-
-
-        return userRepository.save(existingUser);
-    }
-
-    @Override
-    public void deleteUser(int userId) {
-        userRepository.deleteById(userId);
+    public User readUsersById(int userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
     }
 
     @Override
@@ -60,6 +55,7 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
 
 
 }
