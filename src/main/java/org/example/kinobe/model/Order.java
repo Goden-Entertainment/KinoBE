@@ -1,18 +1,36 @@
 package org.example.kinobe.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Order {
 
-    int orderId;
-    Showing showing;
-    Ticket ticket;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int orderId;
+
+    @ManyToOne
+    @JoinColumn(name = "showingFK")
+    private Showing showing;
+
+    @ManyToOne
+    @JoinColumn(name = "userFK")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Order(int orderId, Showing showing, Ticket ticket) {
         this.orderId = orderId;
         this.showing = showing;
-        this.ticket = ticket;
+        this.user = user;
     }
     public Order(){
-        
     }
 
     public int getOrderId() {
@@ -31,11 +49,4 @@ public class Order {
         this.showing = showing;
     }
 
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
 }
