@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
 
         existingOrder.setShowing(updateOrder.getShowing());
-        existingOrder.setTicket(updateOrder.getTicket());
+        existingOrder.setUser(updateOrder.getUser());
 
         return orderRepository.save(existingOrder);
     }

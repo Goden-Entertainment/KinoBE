@@ -1,4 +1,7 @@
 package org.example.kinobe.repository;
 
-public interface SeatRepository {
+import org.example.kinobe.model.Seat;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SeatRepository extends JpaRepository<Seat, Integer> {
 }
