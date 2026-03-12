@@ -11,6 +11,7 @@ import java.util.List;
 
 @RequestMapping("/showing")
 @RestController
+@CrossOrigin("*")
 public class ShowingController {
     ShowingService service;
 
