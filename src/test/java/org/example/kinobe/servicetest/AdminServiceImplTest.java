@@ -4,7 +4,10 @@ import org.example.kinobe.model.Admin;
 import org.example.kinobe.repository.AdminRepository;
 import org.example.kinobe.service.AdminServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -12,13 +15,13 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class AdminServiceImplTest {
 
-    @Autowired
+    @InjectMocks
     AdminServiceImpl adminServiceImpl;
 
-    @MockitoBean
+    @Mock
     AdminRepository adminRepository;
 
 

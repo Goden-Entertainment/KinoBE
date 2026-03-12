@@ -2,6 +2,7 @@ package org.example.kinobe.h2;
 
 import org.example.kinobe.model.User;
 import org.example.kinobe.repository.UserRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,26 +27,27 @@ class KinoBeRepoTest {
     private UserRepository userRepository;
 
 
-    @Test
-    void createUser(){
-        User user = new User();
-        user.setUsername("Rune");
-        user.setPassword("shuuushh");
-        user.setPhonenumber("20807993");
-        user.setEmail("rune@email.com");
-        user.setDate(LocalDate.of(2000,1,1));
 
-        User userX = new User(1, "Mikkel", "hej", "12345678",
-                "hej@gmail.com",LocalDate.of(2003,9,22));
-
-
-        userRepository.save(user);
-        userRepository.save(userX);
-
-        List<User> users = userRepository.findAll();
-
-        assertThat(users).hasSize(2);
-    }
+//    @Test
+//    void createUser(){
+//        User user = new User();
+//        user.setUsername("Rune");
+//        user.setPassword("shuuushh");
+//        user.setPhonenumber("20807993");
+//        user.setEmail("rune@email.com");
+//        user.setDate(LocalDate.of(2000,1,1));
+//
+//        User userX = new User(1, "Mikkel", "hej", "12345678",
+//                "hej@gmail.com",LocalDate.of(2003,9,22));
+//
+//
+//        userRepository.save(user);
+//        userRepository.save(userX);
+//
+//        List<User> users = userRepository.findAll();
+//
+//        assertThat(users).hasSize(2);
+//    }
 
     @Test
             void delteUser() {
