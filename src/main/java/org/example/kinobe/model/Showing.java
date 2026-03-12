@@ -31,6 +31,4 @@ public class Showing {
     @ManyToOne
     @JoinColumn(name = "theaterFK")
     private Theater theater;
-
-
 }
