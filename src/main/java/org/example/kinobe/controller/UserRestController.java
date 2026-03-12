@@ -82,7 +82,7 @@ public class UserRestController {
 //    }
 
 
-    @GetMapping("/profle")
+    @GetMapping("/profile")
     public ResponseEntity<?> profile(HttpSession session){
         User user = (User) session.getAttribute("user");
 
@@ -90,7 +90,7 @@ public class UserRestController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
 
-        if (user.getUsername()=="August" && user.getPassword()=="Admin"){
+        if (user.getUsername().equals("August") && user.getPassword().equals("Admin")){
             List<User> users =userService.readAllUsers();
             ResponseEntity.ok(users);
         }
