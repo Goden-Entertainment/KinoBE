@@ -52,18 +52,18 @@ class ShowingControllerTest {
 
     }
 
-//    @Test
-//    void ShowingController_createShowing() throws Exception {
-//        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
-//        when(service.createShowing(any(Showing.class))).thenReturn(showing);
-//
-//        mockMvc.perform(post("/showing")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(showing)))
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.showingId").value(showing.getShowingId()))
-//                .andExpect(jsonPath("$.status").value(showing.getStatus()));
-//    }
+    @Test
+    void ShowingController_createShowing() throws Exception {
+        Showing showing = Showing.builder().showingId(1).date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).build();
+        when(service.createShowing(any(Showing.class))).thenReturn(showing);
+
+        mockMvc.perform(post("/showing")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(showing)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.showingId").value(showing.getShowingId()))
+                .andExpect(jsonPath("$.status").value(showing.getStatus()));
+    }
 
     @Test
     void ShowingController_showingList_ReturnHttpStatusAndJson() throws Exception {
@@ -92,41 +92,41 @@ class ShowingControllerTest {
     void ShowingController_showingListByTheaterFK() {
     }
 
-//    @Test
-//    void ShowingController_getShowingById_ReturnShowingIdAndStatus() throws Exception {
-//        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
-//
-//        when(service.getShowingById(1)).thenReturn(showing);
-//
-//        mockMvc.perform(get("/showing/{showingId}", 1))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.showingId").value(1))
-//                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
-//    }
+    @Test
+    void ShowingController_getShowingById_ReturnShowingIdAndStatus() throws Exception {
+        Showing showing = Showing.builder().showingId(1).date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).build();
 
-//    @Test
-//    void ShowingController_updateShowing_ReturnShowingIdAndStatus() throws Exception {
-//        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
-//
-//        when(service.updateShowing(any(Showing.class))).thenReturn(showing);
-//
-//        mockMvc.perform(put("/showing/{showingId}", 1)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(showing)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.showingId").value(1))
-//                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
-//
-//    }
+        when(service.getShowingById(1)).thenReturn(showing);
 
-//    @Test
-//    void ShowingController_deleteShowingById_ReturnDeletedShowing() throws Exception {
-//        Showing showing = new Showing(1, LocalDate.now(), LocalTime.now(), Status.ACTIVE);
-//        when(service.deleteShowingById(1)).thenReturn(showing);
-//
-//        mockMvc.perform(delete("/showing/{showingId}", 1))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.showingId").value(1))
-//                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
-//    }
+        mockMvc.perform(get("/showing/{showingId}", 1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.showingId").value(1))
+                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
+    }
+
+    @Test
+    void ShowingController_updateShowing_ReturnShowingIdAndStatus() throws Exception {
+        Showing showing = Showing.builder().showingId(1).date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).build();
+
+        when(service.updateShowing(any(Showing.class))).thenReturn(showing);
+
+        mockMvc.perform(put("/showing/{showingId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(showing)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.showingId").value(1))
+                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
+
+    }
+
+    @Test
+    void ShowingController_deleteShowingById_ReturnDeletedShowing() throws Exception {
+        Showing showing = Showing.builder().showingId(1).date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).build();
+        when(service.deleteShowingById(1)).thenReturn(showing);
+
+        mockMvc.perform(delete("/showing/{showingId}", 1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.showingId").value(1))
+                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
+    }
 }
