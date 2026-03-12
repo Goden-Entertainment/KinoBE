@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequestMapping("/showing")
@@ -68,5 +69,12 @@ public class ShowingController {
     public ResponseEntity<Showing> deleteShowingById(@PathVariable int showingId){
         Showing deleted = service.deleteShowingById(showingId);
         return new ResponseEntity<>(deleted, HttpStatus.OK);
+    }
+
+    //Puts all showings of that selected movie to CANCELLED status.
+    @PutMapping("/cancel/movie/{movieId}")
+    public ResponseEntity<List<Showing>> cancelShowingsByMovieId(@PathVariable int movieId, @RequestParam LocalDate removalDate){
+        List<Showing> cancelled = service.cancelShowingsByMovieId(movieId, removalDate);
+        return new ResponseEntity<>(cancelled, HttpStatus.OK);
     }
 }

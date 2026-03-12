@@ -1,6 +1,7 @@
 package org.example.kinobe.service;
 
 import org.example.kinobe.exception.InvalidShowingDataException;
+import org.example.kinobe.misc.Status;
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
@@ -80,5 +81,17 @@ public class ShowingServiceImpl implements ShowingService{
                 new RuntimeException("Showing with id " + showingId + " was not found"));
         repository.deleteById(showingId);
         return showing;
+    }
+
+    @Override
+    public List<Showing> cancelShowingsByMovieId(int movieId, LocalDate removalDate){
+        List<Showing> showings = repository.findAllByMovie_MovieIdAndDateAfter(movieId, removalDate);
+
+        for(Showing showing : showings){
+            showing.setStatus(Status.CANCELLED);
+            repository.save(showing);
+        }
+        return showings;
+
     }
 }
