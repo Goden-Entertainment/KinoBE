@@ -46,11 +46,11 @@ class ShowingControllerTest {
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("invalidDates")
-    void ShowingController_createShowingWithInvalidDate_ReturnsBAD_REQUEST(){
-
-    }
+//    @ParameterizedTest
+//    @MethodSource("invalidDates")
+//    void ShowingController_createShowingWithInvalidDate_ReturnsBAD_REQUEST(){
+//
+//    }
 
     @Test
     void ShowingController_createShowing() throws Exception {
@@ -62,7 +62,7 @@ class ShowingControllerTest {
                         .content(objectMapper.writeValueAsString(showing)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.showingId").value(showing.getShowingId()))
-                .andExpect(jsonPath("$.status").value(showing.getStatus()));
+                .andExpect(jsonPath("$.status").value(showing.getStatus().toString()));
     }
 
     @Test
@@ -101,7 +101,7 @@ class ShowingControllerTest {
         mockMvc.perform(get("/showing/{showingId}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.showingId").value(1))
-                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
+                .andExpect(jsonPath("$.status").value(showing.getStatus().toString()));
     }
 
     @Test
@@ -115,7 +115,7 @@ class ShowingControllerTest {
                         .content(objectMapper.writeValueAsString(showing)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.showingId").value(1))
-                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
+                .andExpect(jsonPath("$.status").value(showing.getStatus().toString()));
 
     }
 
@@ -127,6 +127,6 @@ class ShowingControllerTest {
         mockMvc.perform(delete("/showing/{showingId}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.showingId").value(1))
-                .andExpect(jsonPath("$.status").value(Status.ACTIVE));
+                .andExpect(jsonPath("$.status").value(showing.getStatus().toString()));
     }
 }
