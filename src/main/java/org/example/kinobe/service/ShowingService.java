@@ -2,6 +2,7 @@ package org.example.kinobe.service;
 
 import org.example.kinobe.model.Showing;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ShowingService {
@@ -13,5 +14,5 @@ public interface ShowingService {
     List<Showing> showingListByTheaterId(int theaterId);
     Showing getShowingById(int showingId);
     Showing deleteShowingById(int showingId);
-
+    List<Showing> cancelShowingsByMovieId(int movieId, LocalDate removalDate);
 }
