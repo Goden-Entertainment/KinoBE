@@ -51,3 +51,27 @@ SELECT 'Forrest Gump', 10, 142, 'The life journey of a slow-witted but kind-hear
 INSERT INTO movie (title, age_limit, duration, description, status, image)
 SELECT 'Avengers: Endgame', 12, 181, 'The Avengers assemble once more to reverse Thanoss actions', 'ACTIVE', NULL
     WHERE NOT EXISTS (SELECT 1 FROM movie WHERE title = 'Avengers: Endgame');
+
+INSERT INTO category (genre)
+SELECT 'Action' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Action');
+
+INSERT INTO category (genre)
+SELECT 'Comedy' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Comedy');
+
+INSERT INTO category (genre)
+SELECT 'Drama' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Drama');
+
+INSERT INTO category (genre)
+SELECT 'Horror' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Horror');
+
+INSERT INTO category (genre)
+SELECT 'Thriller' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Thriller');
+
+INSERT INTO category (genre)
+SELECT 'Sci-Fi' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Sci-Fi');
+
+INSERT INTO category (genre)
+SELECT 'Romance' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Romance');
+
+INSERT INTO category (genre)
+SELECT 'Animation' WHERE NOT EXISTS (SELECT 1 FROM category WHERE genre = 'Animation');
