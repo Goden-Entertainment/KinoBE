@@ -1,10 +1,13 @@
 package org.example.kinobe.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.example.kinobe.misc.Status;
+import java.util.List;
 
 @Entity
 public class Movie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int movieId;
@@ -15,10 +18,10 @@ public class Movie {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
     private String image;
 
-    /*TODO: uncomment this when Showing and Category class is created.
+    //Added jsonmanagedrefence since we might run into an infinite loop issue.
+    @JsonManagedReference
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Showing> showings;
 
@@ -29,7 +32,22 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "categoryFK")
     )
     private List<Category> categories;
-    */
+
+    public List<Showing> getShowings() {
+        return showings;
+    }
+
+    public void setShowings(List<Showing> showings) {
+        this.showings = showings;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
     public int getMovieId() {
         return movieId;
