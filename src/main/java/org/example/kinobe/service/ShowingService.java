@@ -8,6 +8,7 @@ import java.util.List;
 public interface ShowingService {
 
     Showing createShowing(Showing showing);
+    void checkForTimeConflict(Showing showing);
     Showing updateShowing(Showing showing);
     List<Showing> showingList();
     List<Showing> showingListByMovieId(int movieId);
