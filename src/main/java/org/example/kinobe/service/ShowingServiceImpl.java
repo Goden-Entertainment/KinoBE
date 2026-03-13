@@ -68,7 +68,7 @@ public class ShowingServiceImpl implements ShowingService{
         TimeRange showingTimeSlot = new TimeRange(start, end);
 
         int theaterId = showing.getTheater().getTheaterId();
-        List<Showing> existingShowings = repository.findAllByTheater_TheaterIdDateAndStatusNotCancelled(
+        List<Showing> existingShowings = repository.findAllByTheater_TheaterIdAndDateAndStatusNot(
                 theaterId,
                 showing.getDate(),
                 Status.CANCELLED
