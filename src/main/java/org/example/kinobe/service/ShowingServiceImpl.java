@@ -2,27 +2,20 @@ package org.example.kinobe.service;
 
 import org.example.kinobe.exception.InvalidShowingDataException;
 import org.example.kinobe.misc.Status;
+import org.example.kinobe.misc.TimeRange;
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.model.Theater;
 import org.example.kinobe.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Period;
+import java.time.*;
 import java.time.temporal.TemporalField;
+import java.time.temporal.ValueRange;
 import java.util.List;
 
 @Service
 public class ShowingServiceImpl implements ShowingService{
     ShowingRepository repository;
-    LocalDate today = LocalDate.now();
-    LocalDate maxDate = today.plusMonths(3);
-    int dateGapMonth = Period.between(today, maxDate).getMonths();
-
-    public final String dateBeforeTodayMsg = "Invalid date, Showing cannot be scheduled earlier than the current day.";
-    public final String dateNotWithInThreeMonthsMsg = "Invalid date, Showing must be scheduled within " + dateGapMonth + " months of the current month.";
 
     static final int bufferMinutes = 15;
 
@@ -36,12 +29,28 @@ public class ShowingServiceImpl implements ShowingService{
             throw new InvalidShowingDataException("Showing is NUll");
         }
 
+        checkForDateConflict(showing);
+        checkForTimeConflict(showing);
+        return repository.save(showing);
+    }
+
+    @Override
+    public void checkForDateConflict(Showing showing){
+        if(showing.getDate() == null){
+            throw new InvalidShowingDataException("Showing must have a date");
+        }
+        LocalDate today = LocalDate.now();
+        LocalDate maxDate = today.plusMonths(3);
+        int dateGapMonth = Period.between(today, maxDate).getMonths();
+
+        String dateBeforeTodayMsg = "Invalid date, Showing cannot be scheduled earlier than the current day.";
+        String dateNotWithInThreeMonthsMsg = "Invalid date, Showing must be scheduled within " + dateGapMonth + " months of the current month.";
+
         if(showing.getDate().isBefore(today)){
             throw new InvalidShowingDataException(dateBeforeTodayMsg);
         }else if(showing.getDate().isAfter(maxDate)){
             throw new InvalidShowingDataException(dateNotWithInThreeMonthsMsg);
         }
-        return repository.save(showing);
     }
 
     @Override
@@ -53,29 +62,30 @@ public class ShowingServiceImpl implements ShowingService{
             throw new InvalidShowingDataException("Showing must have a theater assigned.");
         }
 
-        int movieDuration = showing.getMovie().getDuration();
+        int movieDurationInMinutes = showing.getMovie().getDuration();
         LocalTime start = showing.getTime();
-        LocalTime end = start.plusMinutes(movieDuration + bufferMinutes);
+        LocalTime end = start.plusMinutes(movieDurationInMinutes + bufferMinutes);
+        TimeRange showingTimeSlot = new TimeRange(start, end);
 
         int theaterId = showing.getTheater().getTheaterId();
-        List<Showing> existing = repository.findAllByTheater_TheaterIdDateAndStatusNotCancelled(
+        List<Showing> existingShowings = repository.findAllByTheater_TheaterIdDateAndStatusNotCancelled(
                 theaterId,
                 showing.getDate(),
                 Status.CANCELLED
         );
 
-        for(Showing s : existing){
-            if(showing.getShowingId() != null && showing.getShowingId().equals(s.getShowingId())){
+        for(Showing s : existingShowings){
+            if(s.getShowingId() != null && s.getShowingId().equals(showing.getShowingId())){
                 continue;
             }
-            int sMovieDuration = s.getMovie().getDuration();
-            LocalTime existStart = s.getTime();
-            LocalTime existEnd = existStart.plusMinutes(sMovieDuration + bufferMinutes);
 
-            if(start.isBefore(existStart) && end.isAfter(existStart)){
-                throw new InvalidShowingDataException(
-                        "Theater is already booked from " + existStart + " to " + existEnd + "."
-                );
+            int sMovieDurationInMinutes = s.getMovie().getDuration();
+            LocalTime existStart = s.getTime();
+            LocalTime existEnd = existStart.plusMinutes(sMovieDurationInMinutes + bufferMinutes);
+            TimeRange existShowingTimeSlot = new TimeRange(existStart, existEnd);
+
+            if(showingTimeSlot.overlaps(existShowingTimeSlot)){
+                throw new InvalidShowingDataException("This: " + showingTimeSlot + " overlaps with existing timeslot: " + existShowingTimeSlot);
             }
         }
     }
@@ -86,11 +96,8 @@ public class ShowingServiceImpl implements ShowingService{
             throw new InvalidShowingDataException("Showing is NUll");
         }
 
-        if(showing.getDate().isBefore(today)){
-            throw new InvalidShowingDataException(dateBeforeTodayMsg);
-        }else if(showing.getDate().isAfter(maxDate)){
-            throw new InvalidShowingDataException(dateNotWithInThreeMonthsMsg);
-        }
+        checkForDateConflict(showing);
+        checkForTimeConflict(showing);
         return repository.save(showing);
     }
 

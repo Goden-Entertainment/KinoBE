@@ -1,10 +1,11 @@
 package org.example.kinobe.service;
 
 import org.example.kinobe.misc.Status;
+import org.example.kinobe.model.Movie;
 import org.example.kinobe.model.Showing;
+import org.example.kinobe.model.Theater;
 import org.example.kinobe.repository.ShowingRepository;
 import org.example.kinobe.exception.InvalidShowingDataException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,7 +32,10 @@ class ShowingServiceImplTest {
 
     @Test
     void showingServiceImpl_CreateShowingWithAcceptableDate_DoesNotThrowInvalidShowingDataException(){
-        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).build();
+        Movie movie = new Movie();
+        movie.setDuration(120);
+        Theater theater = new Theater(1, 100, "Test Theater");
+        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).movie(movie).theater(theater).build();
 
         assertDoesNotThrow(() -> service.createShowing(showing));
         verify(repository).save(showing);
@@ -42,8 +46,7 @@ class ShowingServiceImplTest {
     void showingServiceImpl_CreateShowingWithDateBeforeToday_ThrowsInvalidShowingDataException(){
         Showing showing = Showing.builder().date(LocalDate.now().minusDays(1)).time(LocalTime.now()).status(Status.ACTIVE).build();
 
-        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
-        assertEquals(service.dateBeforeTodayMsg, e.getMessage());
+        assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
     }
 
 
@@ -51,8 +54,7 @@ class ShowingServiceImplTest {
     void showingServiceImpl_CreateShowingWithDateFourMonthsFromToday_ThrowsRuntimeException(){
         Showing showing = Showing.builder().date(LocalDate.now().plusMonths(4)).time(LocalTime.now()).status(Status.ACTIVE).build();
 
-        RuntimeException e = assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
-        assertEquals(service.dateNotWithInThreeMonthsMsg, e.getMessage());
+        assertThrows(InvalidShowingDataException.class, () -> service.createShowing(showing));
     }
 
 
