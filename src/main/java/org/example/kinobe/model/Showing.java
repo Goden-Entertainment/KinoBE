@@ -1,5 +1,6 @@
 package org.example.kinobe.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.kinobe.misc.Status;
@@ -24,6 +25,8 @@ public class Showing {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    ////Added jsonbackrefence since we might run into an infinite loop issue.
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "movieFK")
     private Movie movie;
