@@ -11,6 +11,7 @@ SELECT 1,'2002-11-6', 'TheGoat@gmail.com', 'Admin',
 INSERT INTO users(user_id, date, email, password, phonenumber, username)
 SELECT 2,'1999-11-6', 'Misser@gmail.com', 'hej',
        87654321, 'Marco' WHERE NOT EXISTS (SELECT 2 FROM users WHERE user_id = 2);
+
 INSERT INTO movie (title, age_limit, duration, description, status, image)
 SELECT 'The Matrix', 16, 136, 'A computer hacker learns the true nature of reality', 'ACTIVE', NULL
     WHERE NOT EXISTS (SELECT 1 FROM movie WHERE title = 'The Matrix');
