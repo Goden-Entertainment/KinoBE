@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserRestController {
 
 
@@ -80,6 +81,23 @@ public class UserRestController {
 //        return "login";
 //    }
 
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> profile(HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
+        }
+
+        if (user.getUsername().equals("August") && user.getPassword().equals("Admin")){
+            List<User> users =userService.readAllUsers();
+            ResponseEntity.ok(users);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestParam("username") String username,
                                               @RequestParam("password") String password,
@@ -100,6 +118,8 @@ public class UserRestController {
             throw new DatabaseOperationException("Database error at authentication", e);
         }
     }
+
+
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session) {

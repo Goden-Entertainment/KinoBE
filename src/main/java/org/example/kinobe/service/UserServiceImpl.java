@@ -21,11 +21,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
-    public User updateUser(User user) {
-        userRepository.findById(user.getUserId()).orElseThrow(() -> new RuntimeException("User not found with id: " + user.getUserId()));
-        return userRepository.save(user);
-    }
+        @Override
+        public User updateUser(User user) {
+            userRepository.findById(user.getUserId()).orElseThrow(() -> new RuntimeException("User not found with id: " + user.getUserId()));
+            return userRepository.save(user);
+        }
 
     @Override
     public void deleteUser(User user) {
@@ -54,6 +54,9 @@ public class UserServiceImpl implements UserService {
         } else{
             return null;
         }
+
+
+
     }
 
 
