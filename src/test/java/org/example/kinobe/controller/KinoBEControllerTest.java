@@ -43,6 +43,3 @@ public class KinoBEControllerTest {
                 .andExpect(jsonPath("$.email").value(testUser.getEmail()));
     }
 }
-
-
-
