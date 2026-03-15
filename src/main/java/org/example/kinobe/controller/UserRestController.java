@@ -42,7 +42,6 @@ public class UserRestController {
         User userCreated = userService.createuser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
     }
-
     @GetMapping
     public ResponseEntity<List<User>>readAllUsers(){
         List<User> users =userService.readAllUsers();
