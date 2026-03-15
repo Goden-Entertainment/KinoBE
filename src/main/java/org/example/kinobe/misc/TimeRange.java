@@ -35,7 +35,7 @@ public class TimeRange {
     public boolean isWithin(TimeRange other){
         nullCheck(other, "isWithin");
 
-        return !other.getStart().isBefore(start) && !other.getEnd().isAfter(end);
+        return !start.isBefore(other.getStart()) && !end.isAfter(other.getEnd());
     }
 
     private void nullCheck(Object other, String methodName){

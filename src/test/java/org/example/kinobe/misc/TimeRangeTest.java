@@ -74,7 +74,7 @@ class TimeRangeTest {
         assertFalse(thisRange.overlaps(other));
     }
 
-r    // --- isWithin(LocalTime) cases ---
+    // --- isWithin(LocalTime) cases ---
 
     @Test
     void isWithin_timeInsideRange_ReturnsTrue() {

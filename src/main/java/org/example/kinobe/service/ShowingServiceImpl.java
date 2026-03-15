@@ -35,6 +35,9 @@ public class ShowingServiceImpl implements ShowingService{
 
     @Override
     public void checkShowingMovie(Showing showing){
+        if(showing == null){
+            throw new InvalidShowingDataException("ShowingServiceImpl, method: checkShowingMovie, showing is null.");
+        }
         if(showing.getMovie() == null){
             throw new InvalidShowingDataException("This Showing: " + showing + ", must contain a movie object.");
         }

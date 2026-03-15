@@ -34,8 +34,9 @@ class ShowingServiceImplTest {
     void showingServiceImpl_CreateShowingWithAcceptableDate_DoesNotThrowInvalidShowingDataException(){
         Movie movie = new Movie();
         movie.setDuration(120);
+        movie.setStatus(Status.ACTIVE);
         Theater theater = new Theater(1, 100, "Test Theater");
-        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.now()).status(Status.ACTIVE).movie(movie).theater(theater).build();
+        Showing showing = Showing.builder().date(LocalDate.now()).time(LocalTime.of(10, 0)).status(Status.ACTIVE).movie(movie).theater(theater).build();
 
         assertDoesNotThrow(() -> service.createShowing(showing));
         verify(repository).save(showing);
