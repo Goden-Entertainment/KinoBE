@@ -20,17 +20,34 @@ public class TimeRange {
     }
 
     public boolean overlaps(TimeRange other){
+        nullCheck(other, "overlaps");
+
+        return start.isBefore(other.getEnd()) && end.isAfter(other.getStart());
+    }
+
+    public boolean isWithin(LocalTime timeWindow){
+        nullCheck(timeWindow, "isWithin");
+
+        return !timeWindow.isBefore(start) && !timeWindow.isAfter(end);
+    }
+
+
+    public boolean isWithin(TimeRange other){
+        nullCheck(other, "isWithin");
+
+        return !other.getStart().isBefore(start) && !other.getEnd().isAfter(end);
+    }
+
+    private void nullCheck(Object other, String methodName){
         if(other == null){
-            throw new TimeRangeException("TimeRange method, overlaps(TimeRange other): TimeRange given in args cannot be null");
+            throw new TimeRangeException("TimeRange method: " + methodName + ", method arg is null.");
         }
-        if (other.getStart() == null || other.getEnd() == null) {
-            throw new TimeRangeException("Other TimeRange has null start or end: " +
-                    other);
+        if (other instanceof TimeRange otherTimeRange && (otherTimeRange.getStart() == null || otherTimeRange.getEnd() == null)) {
+            throw new TimeRangeException("Other TimeRange has null start or end: " + other);
         }
         if (start == null || end == null) {
             throw new TimeRangeException("This TimeRange has null start or end: " + this);
         }
 
-        return start.isBefore(other.getEnd()) && end.isAfter(other.getStart());
     }
 }
