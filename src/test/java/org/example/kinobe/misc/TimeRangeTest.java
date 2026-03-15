@@ -118,7 +118,7 @@ class TimeRangeTest {
     void isWithin_rangeFullyInsideThis_ReturnsTrue() {
         TimeRange outer = new TimeRange(T10, T16);
         TimeRange inner = new TimeRange(T12, T14);
-        assertTrue(outer.isWithin(inner));
+        assertTrue(inner.isWithin(outer));
     }
 
     @Test
@@ -138,7 +138,7 @@ class TimeRangeTest {
     void isWithin_rangeEndsAfterThis_ReturnsFalse() {
         TimeRange outer = new TimeRange(T10, T12);
         TimeRange inner = new TimeRange(T10, T16);
-        assertFalse(outer.isWithin(inner));
+        assertFalse(inner.isWithin(outer));
     }
 
     @Test
