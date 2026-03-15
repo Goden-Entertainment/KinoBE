@@ -28,8 +28,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/Goden-Entertainment/kinobe:latest
-            ghcr.io/Goden-Entertainment/kinobe:${{ github.sha }}
+            ghcr.io/goden-entertainment/kinobe:latest
+            ghcr.io/goden-entertainment/kinobe:${{ github.sha }}
 
       - name: Deploy to Azure VM
         uses: appleboy/ssh-action@v1.0.0
