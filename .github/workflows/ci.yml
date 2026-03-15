@@ -27,6 +27,8 @@ jobs:
         with:
           context: .
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             ghcr.io/goden-entertainment/kinobe:latest
             ghcr.io/goden-entertainment/kinobe:${{ github.sha }}
