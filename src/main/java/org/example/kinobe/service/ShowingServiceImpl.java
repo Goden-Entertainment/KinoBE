@@ -3,14 +3,12 @@ package org.example.kinobe.service;
 import org.example.kinobe.exception.InvalidShowingDataException;
 import org.example.kinobe.misc.Status;
 import org.example.kinobe.misc.TimeRange;
+import org.example.kinobe.model.Movie;
 import org.example.kinobe.model.Showing;
-import org.example.kinobe.model.Theater;
 import org.example.kinobe.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
-import java.time.temporal.TemporalField;
-import java.time.temporal.ValueRange;
 import java.util.List;
 
 @Service
@@ -29,9 +27,27 @@ public class ShowingServiceImpl implements ShowingService{
             throw new InvalidShowingDataException("Showing is NUll");
         }
 
+        checkShowingMovie(showing);
         checkForDateConflict(showing);
         checkForTimeConflict(showing);
         return repository.save(showing);
+    }
+
+    @Override
+    public void checkShowingMovie(Showing showing){
+        if(showing == null){
+            throw new InvalidShowingDataException("ShowingServiceImpl, method: checkShowingMovie, showing is null.");
+        }
+        if(showing.getMovie() == null){
+            throw new InvalidShowingDataException("This Showing: " + showing + ", must contain a movie object.");
+        }
+        Movie movie = showing.getMovie();
+
+        if(movie.getStatus() == null){
+            throw new InvalidShowingDataException("This Showing: " + showing + ", contains this Movie: " + movie + ", a Movie must contain a status");
+        }else if(movie.getStatus().equals(Status.CANCELLED)){
+            throw new InvalidShowingDataException("This Showing: " + showing + ", contains this Movie: " + movie + ", a Movie must not have the status CANCELLED");
+        }
     }
 
     @Override
@@ -62,10 +78,7 @@ public class ShowingServiceImpl implements ShowingService{
             throw new InvalidShowingDataException("Showing must have a theater assigned.");
         }
 
-        int movieDurationInMinutes = showing.getMovie().getDuration();
-        LocalTime start = showing.getTime();
-        LocalTime end = start.plusMinutes(movieDurationInMinutes + bufferMinutes);
-        TimeRange showingTimeSlot = new TimeRange(start, end);
+        TimeRange showingTimeSlot = showing.getShowingTimeRange(bufferMinutes);
 
         int theaterId = showing.getTheater().getTheaterId();
         List<Showing> existingShowings = repository.findAllByTheater_TheaterIdAndDateAndStatusNot(
@@ -79,14 +92,34 @@ public class ShowingServiceImpl implements ShowingService{
                 continue;
             }
 
-            int sMovieDurationInMinutes = s.getMovie().getDuration();
-            LocalTime existStart = s.getTime();
-            LocalTime existEnd = existStart.plusMinutes(sMovieDurationInMinutes + bufferMinutes);
-            TimeRange existShowingTimeSlot = new TimeRange(existStart, existEnd);
+            TimeRange existShowingTimeSlot = s.getShowingTimeRange(bufferMinutes);
 
             if(showingTimeSlot.overlaps(existShowingTimeSlot)){
                 throw new InvalidShowingDataException("This: " + showingTimeSlot + " overlaps with existing timeslot: " + existShowingTimeSlot);
             }
+        }
+    }
+
+    @Override
+    public void checkDailyTimeLimitations(Showing showing){
+        if(showing == null){
+            throw new InvalidShowingDataException("ShowingServiceImpl, method: checkForExtraShowing, showing is null.");
+        }else if(!(showing.getStatus().equals(Status.EXTRASHOWING))){
+            return;
+        }
+
+        //Opening-time 10:00
+        LocalTime cinemaOpeningTime = LocalTime.of(10,0);
+        //Closing-time
+        LocalTime cinemaClosingTime = LocalTime.of(23,0);
+        //Time from opening to closing
+        TimeRange cinemaDailyScheduleLength = new TimeRange(cinemaOpeningTime, cinemaClosingTime);
+
+        //Showing time-slot variable
+        TimeRange showingTimeSlot = showing.getShowingTimeRange(bufferMinutes);
+
+        if(!showingTimeSlot.isWithin(cinemaDailyScheduleLength)){
+            throw new InvalidShowingDataException("ShowingServiceImpl, method: checkDailyTimeLimitations, showing is not within the daily schedule limits.");
         }
     }
 
@@ -96,8 +129,18 @@ public class ShowingServiceImpl implements ShowingService{
             throw new InvalidShowingDataException("Showing is NUll");
         }
 
+        //Checks if Showing has a Movie Object
+        // and if the Movie has the status CANCELLED.
+        checkShowingMovie(showing);
+        //Checks if the Showing is being scheduled more than 3 months from now
+        // or earlier than today.
         checkForDateConflict(showing);
+        //Checks if Showing overlaps with other showings
+        // on the same schedule in the same theater
         checkForTimeConflict(showing);
+        //Checks that showing is not scheduled before the cinema opens
+        // or after the cinema closes, unless the showing has the status of EXTRA.
+        checkDailyTimeLimitations(showing);
         return repository.save(showing);
     }
 

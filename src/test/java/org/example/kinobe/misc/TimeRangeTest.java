@@ -74,6 +74,79 @@ class TimeRangeTest {
         assertFalse(thisRange.overlaps(other));
     }
 
+    // --- isWithin(LocalTime) cases ---
+
+    @Test
+    void isWithin_timeInsideRange_ReturnsTrue() {
+        TimeRange range = new TimeRange(T10, T14);
+        assertTrue(range.isWithin(T12));
+    }
+
+    @Test
+    void isWithin_timeAtStartBoundary_ReturnsTrue() {
+        TimeRange range = new TimeRange(T10, T14);
+        assertTrue(range.isWithin(T10));
+    }
+
+    @Test
+    void isWithin_timeAtEndBoundary_ReturnsTrue() {
+        TimeRange range = new TimeRange(T10, T14);
+        assertTrue(range.isWithin(T14));
+    }
+
+    @Test
+    void isWithin_timeBeforeStart_ReturnsFalse() {
+        TimeRange range = new TimeRange(T12, T16);
+        assertFalse(range.isWithin(T10));
+    }
+
+    @Test
+    void isWithin_timeAfterEnd_ReturnsFalse() {
+        TimeRange range = new TimeRange(T10, T12);
+        assertFalse(range.isWithin(T14));
+    }
+
+    @Test
+    void isWithin_nullTime_ThrowsTimeRangeException() {
+        TimeRange range = new TimeRange(T10, T14);
+        assertThrows(TimeRangeException.class, () -> range.isWithin((LocalTime) null));
+    }
+
+    // --- isWithin(TimeRange) cases ---
+
+    @Test
+    void isWithin_rangeFullyInsideThis_ReturnsTrue() {
+        TimeRange outer = new TimeRange(T10, T16);
+        TimeRange inner = new TimeRange(T12, T14);
+        assertTrue(inner.isWithin(outer));
+    }
+
+    @Test
+    void isWithin_rangeAtExactBoundaries_ReturnsTrue() {
+        TimeRange range = new TimeRange(T10, T16);
+        assertTrue(range.isWithin(new TimeRange(T10, T16)));
+    }
+
+    @Test
+    void isWithin_rangeStartsBeforeThis_ReturnsFalse() {
+        TimeRange outer = new TimeRange(T12, T16);
+        TimeRange inner = new TimeRange(T10, T14);
+        assertFalse(outer.isWithin(inner));
+    }
+
+    @Test
+    void isWithin_rangeEndsAfterThis_ReturnsFalse() {
+        TimeRange outer = new TimeRange(T10, T12);
+        TimeRange inner = new TimeRange(T10, T16);
+        assertFalse(inner.isWithin(outer));
+    }
+
+    @Test
+    void isWithin_nullRange_ThrowsTimeRangeException() {
+        TimeRange range = new TimeRange(T10, T14);
+        assertThrows(TimeRangeException.class, () -> range.isWithin((TimeRange) null));
+    }
+
     // --- null guard cases ---
 
     @Test
