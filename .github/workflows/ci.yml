@@ -2,7 +2,7 @@ name: Build and Push KinoBE
 
 on:
   push:
-    branches: [ dev, main, docker-setup ]
+    branches: [ dev, prod, docker-setup ]
 
 jobs:
   build-and-push:
@@ -28,8 +28,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/YOUR_GITHUB_ORG/kinobe:latest
-            ghcr.io/YOUR_GITHUB_ORG/kinobe:${{ github.sha }}
+            ghcr.io/Goden-Entertainment/kinobe:latest
+            ghcr.io/Goden-Entertainment/kinobe:${{ github.sha }}
 
       - name: Deploy to Azure VM
         uses: appleboy/ssh-action@v1.0.0
