@@ -7,9 +7,9 @@ public class Seat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int seatId;
-    private int seatRow;
-    private int seatNumber;
+    private Integer seatId;
+    private Integer seatRow;
+    private Integer seatNumber;
     private float price;
 
     @ManyToOne

@@ -7,7 +7,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ticketId;
+    private Integer ticketId;
     @ManyToOne
     @JoinColumn(name = "showingFK")
     Showing showing;

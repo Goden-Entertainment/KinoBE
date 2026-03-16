@@ -9,9 +9,9 @@ import jakarta.persistence.Id;
 public class Theater {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int theaterId;
+    private Integer theaterId;
     private String name;
-    private int capacity;
+    private Integer capacity;
 
     public Theater(int theaterId, int capacity, String name) {
         this.theaterId = theaterId;

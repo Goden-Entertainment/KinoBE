@@ -10,10 +10,10 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int movieId;
+    private Integer movieId;
     private String title;
-    private int ageLimit;
-    private int duration;
+    private Integer ageLimit;
+    private Integer duration;
     private String description;
 
     @Enumerated(EnumType.STRING)

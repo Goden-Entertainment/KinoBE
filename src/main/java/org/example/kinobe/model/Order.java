@@ -8,7 +8,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
+    private Integer orderId;
 
     @ManyToOne
     @JoinColumn(name = "showingFK")
