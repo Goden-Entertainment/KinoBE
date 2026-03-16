@@ -30,11 +30,11 @@ public class Showing {
     ////Added jsonbackrefence since we might run into an infinite loop issue.
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "movieFK")
+    @JoinColumn(name = "movieFK", referencedColumnName = "movieId")
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "theaterFK")
+    @JoinColumn(name = "theaterFK", referencedColumnName = "theaterId")
     private Theater theater;
 
     public TimeRange getShowingTimeRange(int bufferMinutes){
