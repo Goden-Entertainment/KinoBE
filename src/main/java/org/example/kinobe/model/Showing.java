@@ -21,7 +21,7 @@ public class Showing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int showingId;
+    private Integer showingId;
     private LocalDate date;
     private LocalTime time;
     @Enumerated(EnumType.STRING)
