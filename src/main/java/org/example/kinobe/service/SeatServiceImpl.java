@@ -24,6 +24,11 @@ public class SeatServiceImpl implements SeatService{
     }
 
     @Override
+    public List<Seat> readSeatsByTheaterId(int theaterId) {
+        return seatRepository.findAllByTheater_TheaterId(theaterId);
+    }
+
+    @Override
     public Seat readSeatById(int seatId) {
         return seatRepository.findById(seatId)
                 .orElseThrow(() -> new RuntimeException("Seat not found with id: " + seatId));

@@ -28,9 +28,13 @@ public class SeatController {
     }
 
     @GetMapping("/seats")
-    public ResponseEntity<List<Seat>> readAllSeats(HttpSession session) {
-
+    public ResponseEntity<List<Seat>> readAllSeats() {
         return ResponseEntity.ok(seatServiceImpl.readAllSeat());
+    }
+
+    @GetMapping("/theater/{theaterId}")
+    public ResponseEntity<List<Seat>> readSeatsByTheaterId(@PathVariable int theaterId) {
+        return ResponseEntity.ok(seatServiceImpl.readSeatsByTheaterId(theaterId));
     }
 
     @GetMapping("/{seatId}")

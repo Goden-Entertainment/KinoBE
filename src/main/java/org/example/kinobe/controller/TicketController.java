@@ -29,6 +29,11 @@ public class TicketController {
         return ResponseEntity.ok(ticketServiceImpl.readAllTicket());
     }
 
+    @GetMapping("/showing/{showingId}")
+    public ResponseEntity<List<Ticket>> readTicketsByShowingId(@PathVariable int showingId) {
+        return ResponseEntity.ok(ticketServiceImpl.readTicketsByShowingId(showingId));
+    }
+
     @GetMapping("/{ticketId}")
     public ResponseEntity<Ticket> readTicketById(@PathVariable int ticketId) {
         Ticket ticket = ticketServiceImpl.readTicketById(ticketId);

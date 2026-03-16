@@ -27,6 +27,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> readTicketsByShowingId(int showingId) {
+        return ticketRepository.findAllByShowing_ShowingId(showingId);
+    }
+
+    @Override
     public Ticket readTicketById(int ticketId) {
         return ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + ticketId));
