@@ -22,6 +22,10 @@ public class ShowingController {
 
     @PostMapping
     public ResponseEntity<?> createShowing(@RequestBody Showing showing){
+        System.out.println(showing);
+        System.out.println(showing.getMovie());
+        System.out.println(showing.getTheater());
+
         try{
             Showing saved = service.createShowing(showing);
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
