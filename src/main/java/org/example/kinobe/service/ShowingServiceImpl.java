@@ -27,7 +27,7 @@ public class ShowingServiceImpl implements ShowingService{
             throw new InvalidShowingDataException("Showing is NUll");
         }
 
-        checkShowingMovie(showing);
+//        checkShowingMovie(showing);
         checkForDateConflict(showing);
         checkForTimeConflict(showing);
         return repository.save(showing);
