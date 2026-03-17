@@ -27,9 +27,6 @@ import java.util.List;
 
 @RestController
 public class UserRestController {
-
-
-
     @Autowired
     UserService userService;
 
