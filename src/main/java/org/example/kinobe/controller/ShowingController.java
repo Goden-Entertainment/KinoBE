@@ -1,6 +1,7 @@
 package org.example.kinobe.controller;
 
 import org.example.kinobe.exception.InvalidShowingDataException;
+import org.example.kinobe.exception.TimeRangeException;
 import org.example.kinobe.model.Showing;
 import org.example.kinobe.service.ShowingService;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import java.util.List;
 
 @RequestMapping("/showing")
 @RestController
-@CrossOrigin("*")
 public class ShowingController {
     ShowingService service;
 

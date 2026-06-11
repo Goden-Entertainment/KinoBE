@@ -1,14 +1,21 @@
 package org.example.kinobe.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
+    private Integer orderId;
 
     @ManyToOne
     @JoinColumn(name = "showingFK")
@@ -30,24 +37,4 @@ public class Order {
         this.orderId = orderId;
         this.showing = showing;
         this.user = user;
-    }
-    public Order(){
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public Showing getShowing() {
-        return showing;
-    }
-
-    public void setShowing(Showing showing) {
-        this.showing = showing;
-    }
-
-}
+    }}

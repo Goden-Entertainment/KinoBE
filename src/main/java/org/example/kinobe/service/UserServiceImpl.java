@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    //ændring
     @Autowired
     UserRepository userRepository;
 
@@ -54,6 +55,9 @@ public class UserServiceImpl implements UserService {
         } else{
             return null;
         }
+
+
+
     }
 
 

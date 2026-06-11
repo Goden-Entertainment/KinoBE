@@ -40,7 +40,6 @@ class UserControllerTest {
         mockUser = new User(1, "testuser","12346" , "hashedpassword", "test@email.com", LocalDate.now() );
     }
 
-    // ✅ Succesfuldt login
     @Test
     void authenticateUser_validCredentials_returns200AndUser() {
         when(userService.login("testuser", "password123")).thenReturn(mockUser);
@@ -51,7 +50,6 @@ class UserControllerTest {
         verify(session).setAttribute("user", mockUser);
     }
 
-    // ❌ Forkert kodeord/brugernavn
     @Test
     void authenticateUser_invalidCredentials_returns401() {
         when(userService.login("testuser", "wrongpassword")).thenReturn(null);
@@ -65,7 +63,6 @@ class UserControllerTest {
     private void assertEquals(HttpStatus httpStatus, HttpStatusCode statusCode) {
     }
 
-    // 💥 Database fejl
     @Test
     void authenticateUser_databaseError_throwsDatabaseOperationException() {
         when(userService.login(any(), any())).thenThrow(new DataAccessException("DB error") {});

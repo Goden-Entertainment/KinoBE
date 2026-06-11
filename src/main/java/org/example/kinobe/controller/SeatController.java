@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/seat")
-@CrossOrigin("*")
 public class SeatController {
 
     @Autowired
